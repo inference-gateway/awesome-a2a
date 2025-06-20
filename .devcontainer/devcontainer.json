@@ -1,0 +1,52 @@
+{
+  "name": "TypeScript Development",
+  "dockerFile": "Dockerfile",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-docker",
+        "github.vscode-github-actions",
+        "github.vscode-pull-request-github",
+        "yzhang.markdown-all-in-one"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "editor.renderWhitespace": "all",
+        "cSpell.enabled": true,
+        "cSpell.files": ["**/*.mdx", "**/*.ts"],
+        "files.associations": {
+          "*.mdx": "markdown"
+        },
+        "prettier.requireConfig": true,
+        "prettier.useEditorConfig": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "always",
+            "source.fixAll.eslint": "always"
+          }
+        },
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "typescript.suggest.completeFunctionCalls": true,
+        "git.enableCommitSigning": true,
+        "dev.containers.copyGitConfig": true,
+        "files.insertFinalNewline": true,
+        "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+        "github.copilot.chat.commitMessageGeneration.instructions": [
+          {
+            "text": "Always use conventional commit message format."
+          }
+        ]
+      }
+    }
+  },
+  "remoteEnv": {
+    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}"
+  }
+}
