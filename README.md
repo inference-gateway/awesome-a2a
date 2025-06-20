@@ -88,10 +88,10 @@ We welcome contributions to this awesome list! Please read our contribution guid
 ### Adding a New Agent or Tool
 
 1. **Fork this repository**
-2. **Add your item** to the appropriate section following the format:
-   ```markdown
-   - **[Agent/Tool Name](github-link)** - Brief description of functionality and key features.
-   ```
+2. **Add your item** to the appropriate section following the formats:
+
+**[Agent/Tool Name](github-link)** - Brief description of functionality and key features.
+
 3. **Ensure your submission**:
    - Is A2A-compatible and follows the protocol specification
    - Has proper documentation and examples
