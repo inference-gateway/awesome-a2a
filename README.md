@@ -45,6 +45,10 @@ The [Agent-to-Agent (A2A) protocol](https://google-a2a.github.io/A2A/latest/) en
 
 - **[Google Calendar Agent](https://github.com/inference-gateway/google-calendar-agent)** - A2A-compatible agent for Google Calendar integration with full CRUD operations and event management capabilities.
 
+### Documentations
+
+- **[Documentation Agent](https://github.com/inference-gateway/documentation-agent)** - A2A-compatible agent for libraries and code documentation using Context7 as the underlying data source.
+
 ### Development & Utilities
 
 _Coming soon! Help us grow this list by [contributing](#contributing) your A2A-compatible agents._
