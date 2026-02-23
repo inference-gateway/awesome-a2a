@@ -51,7 +51,7 @@ The [Agent-to-Agent (A2A) protocol](https://google-a2a.github.io/A2A/latest/) en
 
 ### Development & Utilities
 
-_Coming soon! Help us grow this list by [contributing](#contributing) your A2A-compatible agents._
+- **[OpenAgents](https://github.com/openagents-org/openagents)** - Open-source platform for building AI agent networks with native A2A protocol support alongside MCP, WebSocket, gRPC, and HTTP.
 
 ## Tools & Libraries
 
