@@ -53,6 +53,10 @@ The [Agent-to-Agent (A2A) protocol](https://google-a2a.github.io/A2A/latest/) en
 
 _Coming soon! Help us grow this list by [contributing](#contributing) your A2A-compatible agents._
 
+### Finance & Investment
+
+- **[GitDealFlow Signal Agent](https://github.com/kindrat86/vc-deal-flow-signal)** - A2A-compatible agent for VC deal flow and startup discovery. Surfaces commit velocity, contributor growth, and breakout signals across 19 sectors from public GitHub activity. Five read-only skills, no auth, weekly refresh.
+
 ## Tools & Libraries
 
 ### Development Frameworks
