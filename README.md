@@ -55,7 +55,7 @@ _Coming soon! Help us grow this list by [contributing](#contributing) your A2A-c
 
 ### Finance & Investment
 
-- **[GitDealFlow Signal Agent](https://github.com/kindrat86/vc-deal-flow-signal)** - A2A-compatible agent for VC deal flow and startup discovery. Surfaces commit velocity, contributor growth, and breakout signals across 19 sectors from public GitHub activity. Five read-only skills, no auth, weekly refresh.
+- **[GitDealFlow Signal Agent](https://github.com/kindrat86/mcp-deal-flow-signal)** - A2A-compatible agent for VC deal flow and startup discovery. Surfaces commit velocity, contributor growth, and breakout signals across 19 sectors from public GitHub activity. Five read-only skills, no auth, weekly refresh. AgentCard at https://signals.gitdealflow.com/.well-known/agent-card.json.
 
 ## Tools & Libraries
 
