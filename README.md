@@ -13,7 +13,7 @@
   <a href="https://github.com/inference-gateway/awesome-a2a/commits/main"><img src="https://img.shields.io/github/last-commit/inference-gateway/awesome-a2a?color=blue&style=flat-square" alt="Last commit"/></a>
 </p>
 
-The [Agent-to-Agent (A2A) protocol](https://google-a2a.github.io/A2A/latest/) enables seamless communication and coordination between AI agents. This list showcases tested, working A2A-compatible agents, tools, libraries, and resources.
+The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless communication and coordination between AI agents. This list showcases tested, working A2A-compatible agents, tools, libraries, and resources.
 
 > [!TIP]
 > **New to A2A?** Start with the [Agent Development Kit (ADK)](https://github.com/inference-gateway/adk) and ship your first A2A-compatible agent in minutes.
@@ -23,9 +23,9 @@ The [Agent-to-Agent (A2A) protocol](https://google-a2a.github.io/A2A/latest/) en
 - **[Agent Development Kit (ADK)](https://github.com/inference-gateway/adk)** - The fastest way to build A2A agents in Go (Rust and TypeScript flavors available too).
 - **[Agent Definition Language (ADL)](https://github.com/inference-gateway/adl)** - Declare your agent in YAML; scaffold Go, Rust, or TypeScript with one CLI command.
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
-- **[A2A Protocol Specification](https://google-a2a.github.io/A2A/latest/)** - The official spec - start here to understand the protocol.
+- **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_8 agents · 12 tools & libraries · 3 docs · 1 example · Last updated 2026-05-25_
+_8 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-05-25_
 
 ## 📑 Contents
 
@@ -39,6 +39,7 @@ _8 agents · 12 tools & libraries · 3 docs · 1 example · Last updated 2026-05
   - [📅 Productivity & Calendar](#-productivity--calendar)
   - [🔄 Workflow Automation](#-workflow-automation)
 - [🛠️ Tools & Libraries](#%EF%B8%8F-tools--libraries)
+  - [🏛️ Official A2A SDKs](#%EF%B8%8F-official-a2a-sdks)
   - [🏗️ Frameworks & SDKs](#%EF%B8%8F-frameworks--sdks)
   - [🔌 Integration Platforms](#-integration-platforms)
   - [🚀 Deployment & Operations](#-deployment--operations)
@@ -88,6 +89,17 @@ _8 agents · 12 tools & libraries · 3 docs · 1 example · Last updated 2026-05
 
 ## 🛠️ Tools & Libraries
 
+### 🏛️ Official A2A SDKs
+
+The canonical SDKs from the [a2aproject](https://github.com/a2aproject) (Linux Foundation), in order of language popularity.
+
+- **[A2A Python](https://github.com/a2aproject/a2a-python)** `Python` `Apache-2.0` - Official Python SDK for the A2A Protocol. The reference implementation - `pip install a2a-sdk`.
+- **[A2A JavaScript](https://github.com/a2aproject/a2a-js)** `TypeScript` `Apache-2.0` - Official JavaScript/TypeScript SDK for the A2A Protocol - `npm install @a2a-js/sdk`.
+- **[A2A Java](https://github.com/a2aproject/a2a-java)** `Java` `Apache-2.0` - Official Java SDK for the A2A Protocol (Maven).
+- **[A2A Go](https://github.com/a2aproject/a2a-go)** `Go` `Apache-2.0` - Official Go SDK for the A2A Protocol. High-level server (`a2asrv`) and client (`a2aclient`) APIs, multi-transport (gRPC, REST, JSON-RPC), and a CLI for agent discovery.
+- **[A2A Dotnet](https://github.com/a2aproject/a2a-dotnet)** `C#` `Apache-2.0` - Official C#/.NET SDK for the A2A Protocol - `dotnet add package A2A`.
+- **[A2A Rust](https://github.com/a2aproject/a2a-rs)** `Rust` `Apache-2.0` - Official Rust SDK for the A2A Protocol. Async client/server, gRPC/SLIMRPC bindings, SSE streaming, protobuf interop, and a CLI.
+
 ### 🏗️ Frameworks & SDKs
 
 - **[Agent Development Kit (ADK)](https://github.com/inference-gateway/adk)** `Go` `Apache-2.0` `⭐ Featured` - Complete framework for building A2A-compatible agents in Go with schema-driven development.
@@ -107,6 +119,8 @@ _8 agents · 12 tools & libraries · 3 docs · 1 example · Last updated 2026-05
 
 ### 🐛 Debugging & Testing
 
+- **[A2A Inspector](https://github.com/a2aproject/a2a-inspector)** `TypeScript` `Apache-2.0` - Official A2A validation tool - compliance checking for AgentCards and the JSON-RPC surface.
+- **[A2A Technology Compatibility Kit](https://github.com/a2aproject/a2a-tck)** `Python` `Apache-2.0` - Official Technology Compatibility Kit - pytest-based conformance suite validating A2A implementations across gRPC, JSON-RPC, and HTTP+JSON transports.
 - **[A2A Debugger](https://github.com/inference-gateway/a2a-debugger)** `Go` `Apache-2.0` - The ultimate A2A agents troubleshooter - CLI utilities for inspecting, replaying, and testing agent traffic.
 
 ### 📦 Registries, Catalogs & Schemas
@@ -121,7 +135,8 @@ _8 agents · 12 tools & libraries · 3 docs · 1 example · Last updated 2026-05
 
 ### Official Documentation
 
-- **[A2A Protocol Specification](https://google-a2a.github.io/A2A/latest/)** `⭐ Featured` - The official A2A protocol documentation and specification.
+- **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** `⭐ Featured` - The official A2A protocol documentation and specification.
+- **[Agent2Agent (A2A) Protocol Repo](https://github.com/a2aproject/A2A)** - The canonical A2A protocol repository under the Linux Foundation - source for the spec, docs, and reference samples.
 - **[Inference Gateway Documentation](https://docs.inference-gateway.com)** - Comprehensive guides for using A2A agents with the Inference Gateway.
 
 ### Getting Started
@@ -134,6 +149,7 @@ _8 agents · 12 tools & libraries · 3 docs · 1 example · Last updated 2026-05
 
 ### Reference Implementations
 
+- **[A2A Samples](https://github.com/a2aproject/a2a-samples)** `Multi-lang` `Apache-2.0` - Official sample agents for the A2A Protocol across Python, JS/TS, Java, .NET, and Go - including LangGraph, CrewAI, Google ADK, Semantic Kernel, and Genkit integrations.
 - **[Google Calendar Agent Example](https://github.com/inference-gateway/google-calendar-agent/tree/main/example)** `Go` - Complete example showing how to integrate and use the Google Calendar agent.
 
 <p align="right"><a href="#-contents">↑ Back to top</a></p>
