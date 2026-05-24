@@ -63,7 +63,7 @@ The [Agent-to-Agent (A2A) protocol](https://google-a2a.github.io/A2A/latest/) en
 
 - **[Agent Development Kit (ADK)](https://github.com/inference-gateway/a2a)** - Complete framework for building A2A-compatible agents in Go with schema-driven development.
 - **[A2A Debugger](https://github.com/inference-gateway/a2a-debugger)** - Debugging and development tools for A2A agents with CLI utilities and testing support.
-- **[systemprompt-template](https://github.com/systempromptio/systemprompt-template)** - Production-grade Rust runtime for hosting and governing MCP servers with A2A orchestration. Built-in 6-tier RBAC, secret detection (35+ patterns), rate limiting, audit logging, OAuth 2.0 + WebAuthn. Single binary (~50 MB), PostgreSQL only — no Kubernetes, no Redis. [BSL-1.1]
+- **[systemprompt-template](https://github.com/systempromptio/systemprompt-template)** - Production-grade Rust runtime for hosting and governing MCP servers with A2A orchestration. Built-in 6-tier RBAC, secret detection (35+ patterns), rate limiting, audit logging, OAuth 2.0 + WebAuthn. Single binary (~50 MB), PostgreSQL only - no Kubernetes, no Redis. [BSL-1.1]
 
 ### Integration Platforms
 
