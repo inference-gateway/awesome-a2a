@@ -65,6 +65,8 @@ _8 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-0
 - **[Grafana Agent](https://github.com/inference-gateway/grafana-agent)** `Go` `Apache-2.0` - A2A agent server for automating Grafana dashboard creation, querying, and management.
 
 ### 🔧 Development & Utilities
+- **[Aurelius Agent](https://aureliusagent.dev/)** `Container` `Proprietary` - Strategic planning and orchestration agent for BuilderStudio that breaks complex software work into actionable implementation paths, coordinates coding tasks, prepares project context, guides Hermes Agent execution, and supports repeatable build, smoke-test, and release flows. AgentCard: https://aureliusagent.dev/.well-known/agent-card.json. Docker image: `ghcr.io/wundercorp/aurelius-agent:0.3.9`.
+
 
 - **[Mock Agent](https://github.com/inference-gateway/mock-agent)** `Go` `Apache-2.0` - A2A agent that returns canned responses - useful for testing client integrations and CI flows without a real backend.
 - **[OpenAgents](https://github.com/openagents-org/openagents)** `Python` `Apache-2.0` - Open-source platform for building AI agent networks with native A2A protocol support alongside MCP, WebSocket, gRPC, and HTTP.
