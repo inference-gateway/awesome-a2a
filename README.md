@@ -77,6 +77,8 @@ _8 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-0
 
 ### 💰 Finance & Investment
 
+- - **[TWZRD Agent Intel](https://intel.twzrd.xyz)** `MCP` - On-chain behavioral trust scoring for AI agents on Solana. Verify agent wallet identity before x402 micropayments. Tools: `score_agent`, `preflight_check` (free), `get_trust_receipt` (paid x402). Free MCP: `{"mcpServers":{"twzrd-agent-intel":{"url":"https://intel.twzrd.xyz/mcp"}}}`
+
 - **[GitDealFlow Signal Agent](https://github.com/kindrat86/mcp-deal-flow-signal)** `JavaScript` `MIT` - A2A agent for VC deal-flow and startup discovery. Surfaces commit velocity, contributor growth, and breakout signals across 19 sectors from public GitHub activity. Five read-only skills, no auth, weekly refresh. AgentCard at [signals.gitdealflow.com](https://signals.gitdealflow.com/.well-known/agent-card.json).
 
 ### 📅 Productivity & Calendar
