@@ -25,13 +25,14 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_8 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-05-25_
+_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
 
 ## 📑 Contents
 
 - [⚡ Featured](#-featured)
 - [🤖 Agents](#-agents)
   - [🌐 Browser & Web](#-browser--web)
+  - [🛒 Commerce & Marketplaces](#-commerce--marketplaces)
   - [📊 DevOps & Observability](#-devops--observability)
   - [🔧 Development & Utilities](#-development--utilities)
   - [📚 Documentation](#-documentation)
@@ -59,6 +60,10 @@ _8 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-0
 ### 🌐 Browser & Web
 
 - **[Browser Agent](https://github.com/inference-gateway/browser-agent)** `Go` `Apache-2.0` - A2A agent server for browser automation and web testing using Playwright.
+
+### 🛒 Commerce & Marketplaces
+
+- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. Eight skills (`listing.browse`, `listing.post`, `thread.negotiate`, `thread.finalize`, `deal.fetch`, `deal.rate`, `account.status`, `credits.topup`) over JSON-RPC `message/send`, with BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
 
 ### 📊 DevOps & Observability
 
