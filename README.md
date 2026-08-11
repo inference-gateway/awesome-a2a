@@ -115,6 +115,7 @@ The canonical SDKs from the [a2aproject](https://github.com/a2aproject) (Linux F
 - **[Agent Definition Language (ADL)](https://github.com/inference-gateway/adl)** `Apache-2.0` - Declarative YAML manifest format for defining AI agents, their skills, capabilities, and tools. Generates consistent, enterprise-ready code from a single source of truth.
 - **[ADL CLI](https://github.com/inference-gateway/adl-cli)** `Go` `Apache-2.0` - Command-line tool to scaffold and manage enterprise-ready A2A agents from ADL manifests. Generates Go, Rust, and TypeScript projects.
 - **[systemprompt-template](https://github.com/systempromptio/systemprompt-template)** `Rust` `BSL-1.1` - Production-grade Rust runtime for hosting and governing MCP servers with A2A orchestration. Built-in 6-tier RBAC, secret detection (35+ patterns), rate limiting, audit logging, OAuth 2.0 + WebAuthn. Single binary (~50 MB), PostgreSQL only - no Kubernetes, no Redis.
+- **[emem](https://emem.dev)** `Rust` `Apache-2.0` - Verifiable shared memory for agents. Answers about physical places resolve to ed25519-signed, content-addressed facts that a receiving agent verifies offline, so two agents cite identical bytes instead of two paraphrases.
 
 ### 🔌 Integration Platforms
 
