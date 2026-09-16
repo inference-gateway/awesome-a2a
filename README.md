@@ -63,7 +63,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 
 ### 🛒 Commerce & Marketplaces
 
-- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. Eight skills (`listing.browse`, `listing.post`, `thread.negotiate`, `thread.finalize`, `deal.fetch`, `deal.rate`, `account.status`, `credits.topup`) over JSON-RPC `message/send`, with BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
 
 ### 📊 DevOps & Observability
 
