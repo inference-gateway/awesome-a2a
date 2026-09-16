@@ -71,6 +71,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 
 ### 🔧 Development & Utilities
 - **[Aurelius Agent](https://aureliusagent.dev/)** `Container` `Proprietary` - Strategic planning and orchestration agent for BuilderStudio that breaks complex software work into actionable implementation paths, coordinates coding tasks, prepares project context, guides Hermes Agent execution, and supports repeatable build, smoke-test, and release flows. AgentCard: https://aureliusagent.dev/.well-known/agent-card.json. Docker image: `ghcr.io/wundercorp/aurelius-agent:0.3.9`.
+- - **[Claix](https://claix.dev)** `Hosted` `Proprietary` - Native A2A document intelligence agent for developers. Extracts schema-validated JSON from PDFs, Excel/CSV files, text documents, images, TXT, HTML, and XML; supports persistent document memory and cross-document Knowledge Space queries. AgentCard: (https://claix.dev/.well-known/agent-card.json).
 
 
 - **[Mock Agent](https://github.com/inference-gateway/mock-agent)** `Go` `Apache-2.0` - A2A agent that returns canned responses - useful for testing client integrations and CI flows without a real backend.
