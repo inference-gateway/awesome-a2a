@@ -11,19 +11,19 @@ Awesome A2A is a curated list of A2A-protocol-compatible agents, tools, and libr
 
 Changes land via fork + PR to `main`. To add an entry:
 
-1. Place it in the correct major section (Agents / Tools & Libraries / Documentation & Resources / Examples & Tutorials) and the correct subheading (e.g. Agents > "Browser & Web"). Read the existing sections before choosing.
+1. Place it in the correct major section (Agents / Tools & Libraries / Documentation & Resources / Examples & Tutorials) and the correct subheading (e.g. Agents > "Browser & Web"). Read the existing sections before choosing. The `⚡ Featured` section is curator-managed - never add entries there yourself.
 2. Use the exact entry format:
 
    `- **[Name](https://github.com/owner/repo)** \`Language\` \`License\` - Brief description of what it does and its key capabilities.`
 
-3. Update the stats line in the header: `_8 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-05-25_`. Bump the count for the section you touched and the date.
+3. Update the stats line in the header: `_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_`. Bump the count for the section you touched and the date.
 4. Keep the `<p align="right"><a href="#-contents">↑ Back to top</a></p>` footer after each major section.
 
 ## Conventions
 
 - Tags: `⭐ Featured` is applied by curators only - never self-apply. `🆕 New` marks entries added in the last ~90 days.
 - Use plain hyphens in prose, not em dashes (a prior commit replaced every em dash).
-- Entries are external links only: no local files, no images beyond the header badges.
+- Entries are external links only: no local files, no images beyond the header badges. Hosted services without a GitHub repo may link their site and append an AgentCard URL (see Cog Depot, Aurelius Agent).
 - Keep descriptions factual and specific (what it does, key capabilities); one bullet per entry.
 - Headings use emoji and their GitHub-generated anchors; keep heading text stable or update the Contents links in the same change.
 - One entry per PR, with a brief explanation of what is being added.
