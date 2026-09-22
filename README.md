@@ -25,7 +25,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
+_11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-09-22_
 
 ## 📑 Contents
 
@@ -64,6 +64,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 ### 🛒 Commerce & Marketplaces
 
 - **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[Feeless402 Rail Quote](https://feeless402.com)** `Hosted` `Open` - Read-only x402 pricing agent: send any HTTP 402 API URL, it returns the live payment quote without paying and then reprices the same call on every supported rail. The feeless Nano (XNO) rail quotes the true metered amount; gas-based rails floor micro-prices. Skills: quote (x402 pricing across rails), faucet (starter XNO for onboarding agents). AgentCard: https://feeless402.com/.well-known/agent-card.json.
 
 ### 📊 DevOps & Observability
 
