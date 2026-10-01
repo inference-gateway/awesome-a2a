@@ -25,7 +25,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
+_11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-10-01_
 
 ## 📑 Contents
 
@@ -71,6 +71,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 
 ### 🔧 Development & Utilities
 - **[Aurelius Agent](https://aureliusagent.dev/)** `Container` `Proprietary` - Strategic planning and orchestration agent for BuilderStudio that breaks complex software work into actionable implementation paths, coordinates coding tasks, prepares project context, guides Hermes Agent execution, and supports repeatable build, smoke-test, and release flows. AgentCard: https://aureliusagent.dev/.well-known/agent-card.json. Docker image: `ghcr.io/wundercorp/aurelius-agent:0.3.9`.
+- **[HANRIA Mandate Check](https://hanria.ai)** `Hosted` `Proprietary` - Free, advisory A2A agent that checks one proposed agent action against an operator's written mandate and returns permit, deny or escalate with the governing clause. It cannot stop an action and keeps no request content. AgentCard: https://hanria.ai/.well-known/agent-card.json.
 
 
 - **[Mock Agent](https://github.com/inference-gateway/mock-agent)** `Go` `Apache-2.0` - A2A agent that returns canned responses - useful for testing client integrations and CI flows without a real backend.
