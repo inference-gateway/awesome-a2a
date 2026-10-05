@@ -25,7 +25,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
+_11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-10-05_
 
 ## 📑 Contents
 
@@ -70,6 +70,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 - **[Grafana Agent](https://github.com/inference-gateway/grafana-agent)** `Go` `Apache-2.0` - A2A agent server for automating Grafana dashboard creation, querying, and management.
 
 ### 🔧 Development & Utilities
+- **[Anansi Haven](https://github.com/kburrus64-max/anansi-haven)** `JavaScript` `MIT` `🆕 New` - Hosted A2A agent (A2A 1.0 and 0.3 JSON-RPC, also MCP and HTTP) that gives other agents a persistent identity, versioned key-value memory that survives restarts, client-side encrypted storage, an agent directory and a job board. Read-only utility skills need no key; memory skills need a free key from `register_agent`. AgentCard: https://anansi-haven.anansidata.workers.dev/.well-known/agent-card.json.
 - **[Aurelius Agent](https://aureliusagent.dev/)** `Container` `Proprietary` - Strategic planning and orchestration agent for BuilderStudio that breaks complex software work into actionable implementation paths, coordinates coding tasks, prepares project context, guides Hermes Agent execution, and supports repeatable build, smoke-test, and release flows. AgentCard: https://aureliusagent.dev/.well-known/agent-card.json. Docker image: `ghcr.io/wundercorp/aurelius-agent:0.3.9`.
 
 
