@@ -64,6 +64,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 ### 🛒 Commerce & Marketplaces
 
 - **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[Vedar Kamchatka](https://github.com/tourhabk-ui/pos)** `TypeScript` `Proprietary` - Hosted A2A agent for Kamchatka (Russia) travel: tours with live availability, accommodation, transfers, trip plans, volcano status, weather and safety. Free-text (RU/EN) or exact tool calls via DataPart; booking requests are confirmed by a human. JSON-RPC and HTTP+JSON, no auth. AgentCard at [vedarai.ru](https://vedarai.ru/.well-known/agent-card.json).
 
 ### 📊 DevOps & Observability
 
