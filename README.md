@@ -25,7 +25,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
+_11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-10-17_
 
 ## 📑 Contents
 
@@ -87,6 +87,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 ### 📅 Productivity & Calendar
 
 - **[Google Calendar Agent](https://github.com/inference-gateway/google-calendar-agent)** `Go` `Apache-2.0` `⭐ Featured` - A2A-compatible agent for Google Calendar with full CRUD operations and event management capabilities.
+- **[CareJobs.Now Healthcare Jobs Agent](https://carejobs.now)** `Hosted` `Proprietary` - Free hosted A2A agent that answers questions about open US healthcare jobs from 170,000+ postings read daily from 270 hospital and health system career sites. Three read-only skills (search healthcare jobs, posted pay by kind of job and employer, employers and states hiring), no auth, links to each job. Endpoint: https://carejobs.now/api/a2a (also an MCP server at https://carejobs.now/api/mcp). AgentCard: https://carejobs.now/.well-known/agent-card.json.
 
 ### 🔄 Workflow Automation
 
