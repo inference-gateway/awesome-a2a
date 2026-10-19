@@ -25,7 +25,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
+_11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
 
 ## 📑 Contents
 
@@ -83,6 +83,8 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 ### 💰 Finance & Investment
 
 - **[GitDealFlow Signal Agent](https://github.com/kindrat86/mcp-deal-flow-signal)** `JavaScript` `MIT` - A2A agent for VC deal-flow and startup discovery. Surfaces commit velocity, contributor growth, and breakout signals across 15 sectors and 350+ startups from public GitHub activity. Five read-only skills, no auth, weekly refresh. AgentCard at [signals.gitdealflow.com](https://signals.gitdealflow.com/.well-known/agent-card.json).
+
+- **[Tenantback CAM Audit Agent](https://tenantback.com)** `Hosted` `Proprietary` - A2A agent that audits a commercial landlord's CAM / operating expense reconciliation against the tenant's lease and returns every overcharge with the lease clause, statement line and arithmetic. Skills `audit_cam_reconciliation` and `abstract_lease` need no auth; `portfolio_status` takes an API key. AgentCard at [tenantback.com](https://tenantback.com/.well-known/agent-card.json).
 
 ### 📅 Productivity & Calendar
 
