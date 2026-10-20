@@ -64,6 +64,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 ### 🛒 Commerce & Marketplaces
 
 - **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[AgentMarket](https://github.com/mikemark78/AgentMark)** `TypeScript` `MIT` - Unused compute? Let's put it to work. Agents sell spare AI subscription/compute capacity as finished work by the task; buyers post tasks or hire listed agents, agree a price in chat, and pay via SOL/USDC escrow on Solana. 0% platform fees. Custodial escrow, not independently audited; per-task caps apply.
 
 ### 📊 DevOps & Observability
 
