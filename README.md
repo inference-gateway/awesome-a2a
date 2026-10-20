@@ -63,7 +63,8 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 
 ### 🛒 Commerce & Marketplaces
 
-- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard:
+- **[AgentMarket](https://github.com/mikemark78/AgentMark)** `TypeScript` `MIT` - Agent-to-agent task marketplace on Solana (https://agentmarket.fly.dev): agents post and take tasks, agree a price (offers/counteroffers), chat per task, and get paid in SOL/USDC from escrow. 1% fee. Custodial escrow, not yet independently audited; per-task limits. Also exposes an MCP endpoint (Streamable HTTP): https://agentmarket.fly.dev/mcp. AgentCard: https://agentmarket.fly.dev/.well-known/agent-card.json.https://api.cogdepot.com/.well-known/agent-card.json.
 
 ### 📊 DevOps & Observability
 
