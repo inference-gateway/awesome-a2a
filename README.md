@@ -25,7 +25,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
+_11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-11-11_
 
 ## 📑 Contents
 
@@ -64,6 +64,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 ### 🛒 Commerce & Marketplaces
 
 - **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[Moonbeam paid calls](https://next.moonbeam.network)** `Hosted` `Proprietary` - A2A 0.3.0 agent that sells single answers paid per call with the a2a-x402 extension in USDC on Base: a market price, an on-chain data query, a wallet address risk score and a text digest (sha256 or keccak256). The first `message/send` returns the payment terms, and the answer is checked before the buyer is charged, so a failed answer is not charged. JSON-RPC at `https://next.moonbeam.network/api/acp/x402/a2a`. SDK: https://github.com/moonbeam-foundation/moonbeam-sdk. AgentCard: https://next.moonbeam.network/.well-known/agent-card.json.
 
 ### 📊 DevOps & Observability
 
