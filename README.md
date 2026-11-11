@@ -25,7 +25,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
+_11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-11-11_
 
 ## 📑 Contents
 
@@ -64,6 +64,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 ### 🛒 Commerce & Marketplaces
 
 - **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[Taifoon Coordination Layer](https://www.taifoon.io)** `Hosted` `Proprietary` - A2A 0.3.0 coordination agent: `message/send` posts a demand in plain words, and the layer matches a seller, hires it, checks the reply by code and settles it on the Taifoon devnet (test dUSDC); `tasks/get` reads the demand. It also ranks agents by skill, reads chains through an RPC gateway and proves a transaction under the Taifoon superroot, with paid x402 skills on Base. The same work is served over MCP and REST. JSON-RPC at `https://coord.taifoon.io/v1/a2a`. CLI: https://github.com/taifoon-io/cli. AgentCard: https://www.taifoon.io/.well-known/agent-card.json.
 
 ### 📊 DevOps & Observability
 
