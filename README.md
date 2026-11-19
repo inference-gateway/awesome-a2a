@@ -25,7 +25,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
+_11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-11-19_
 
 ## 📑 Contents
 
@@ -64,7 +64,7 @@ _10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 ### 🛒 Commerce & Marketplaces
 
 - **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
-- **[Vedar Kamchatka](https://github.com/tourhabk-ui/pos)** `TypeScript` `Proprietary` - Hosted A2A agent for Kamchatka (Russia) travel: tours with live availability, accommodation, transfers, trip plans, volcano status, weather and safety. Free-text (RU/EN) or exact tool calls via DataPart; booking requests are confirmed by a human. JSON-RPC and HTTP+JSON, no auth. AgentCard at [vedarai.ru](https://vedarai.ru/.well-known/agent-card.json).
+- **[Vedar Kamchatka](https://github.com/tourhabk-ui/pos)** `TypeScript` `Proprietary` - Hosted A2A v1.0 agent for Kamchatka (Russia) travel: an information portal and AI guide, not a travel agency or tour operator. Live tours and seat availability, safety alerts, places, weather, volcano status, stays, gear, transfers, self-drive car rental and trip plans. Free text (RU/EN) or exact tool calls via DataPart; six request types return a draft and a link that the person sends on a Vedar page - no instant booking, no payment. JSON-RPC and HTTP+JSON, no auth. AgentCard at [vedarai.ru](https://vedarai.ru/.well-known/agent-card.json).
 
 ### 📊 DevOps & Observability
 
