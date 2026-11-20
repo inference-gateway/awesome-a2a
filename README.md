@@ -25,8 +25,6 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_11 agents · 21 tools & libraries · 4 docs · 2 examples · Last updated 2026-11-20_
-
 ## 📑 Contents
 
 - [⚡ Featured](#-featured)
@@ -193,7 +191,7 @@ Use plain hyphens instead of em dashes, and commas or periods instead of semicol
 **How PRs are scored.** When a maintainer picks up a pull request, they add the `in-review` label. That posts a readiness score (0-100) as a comment, updated on each push while the PR is in review:
 
 - **Hard rules** - an OSI-licensed public GitHub repo, not already listed, not archived, only `README.md` changed, opened by a person (not a bot account), and for agents a passing A2A TCK run. Breaking one marks the PR "Not eligible".
-- **Entry (45)** - format, one entry per PR, updated stats line, A2A evidence in the repo, examples, recent activity.
+- **Entry (45)** - format, one entry per PR, A2A evidence in the repo, examples, recent activity.
 - **Contributor (30)** - your merged vs closed pull requests on other projects, account age, and open vs merged volume.
 - **Review (25)** - an AI review (Claude Haiku) of why the project helps the ecosystem, commercial intent, and near-duplicates.
 

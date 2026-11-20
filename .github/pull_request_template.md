@@ -23,4 +23,4 @@ a2a-target:
 - [ ] The project has no commercial intent (not a paid, hosted-only, freemium, or marketplace product) and this PR is not promotion.
 - [ ] I searched the list and this is not a duplicate (or I explained above what is different).
 - [ ] This PR adds one entry and changes only `README.md`.
-- [ ] I used the entry format and updated the stats line count and date.
+- [ ] I used the entry format.

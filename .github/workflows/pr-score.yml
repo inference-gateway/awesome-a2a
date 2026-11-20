@@ -152,8 +152,7 @@ jobs:
           pts "Entry format, no em dashes or semicolons" "$([ "$f" = 10 ] && echo ok || echo 'fix the format, use hyphens instead of em dashes and commas or periods instead of semicolons')" "$f" 10
 
           n=$(wc -l < "$d/entries" | tr -d ' ')
-          pts "One entry per PR" "$n added" "$([ "$n" = 1 ] && echo 5 || echo 0)" 5
-          pts "Stats line updated" "$(grep -qE '^\+_[0-9]+ agents' "$d/diff" && echo yes || echo no)" "$(grep -qE '^\+_[0-9]+ agents' "$d/diff" && echo 5 || echo 0)" 5
+          pts "One entry per PR" "$n added" "$([ "$n" = 1 ] && echo 10 || echo 0)" 10
 
           if [ -s "$d/repo.json" ]; then
             gh api "repos/$REPO/readme" --jq .content 2> /dev/null | base64 -d > "$d/repo-readme" || true
