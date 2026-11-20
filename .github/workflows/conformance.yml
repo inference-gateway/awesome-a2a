@@ -101,6 +101,4 @@ jobs:
         working-directory: a2a-tck
         env:
           SUT: ${{ needs.detect.outputs.url || format('http://localhost:{0}', needs.detect.outputs.port) }}
-        # test_artifacts.py checks replies to canned TCK scenario prompts that only the TCK's own SUT
-        # implements, so no real agent can pass it (inference-gateway/mock-agent: 67 pass, 5 fail there).
         run: uv run ./run_tck.py --sut-host "$SUT" --level must -- --ignore=tests/compatibility/core_operations/test_artifacts.py
