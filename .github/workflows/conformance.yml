@@ -1,0 +1,112 @@
+---
+name: Conformance
+
+# Runs the A2A TCK (must level) against the `a2a-target` of PRs that add an Agents entry.
+# Modeled on the `tck` job in inference-gateway/adk .github/workflows/ci.yml.
+# Uses pull_request on purpose: it starts a container the submitter chose, so it runs in the
+# fork context with no secrets and a read-only token. pr-score.yml reads the `tck` job result.
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+    paths:
+      - README.md
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    runs-on: ubuntu-24.04
+    outputs:
+      image: ${{ steps.target.outputs.image }}
+      port: ${{ steps.target.outputs.port }}
+      url: ${{ steps.target.outputs.url }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Find added Agents entries
+        id: agents
+        run: |
+          # HEAD is the PR merge commit, HEAD^1 the base. Print the README line number of each added
+          # entry, then the "## " section heading above it, and count the ones under Agents.
+          count=$(git diff -U0 HEAD^1 HEAD -- README.md \
+            | awk '/^@@/ { split($3, a, ","); n = substr(a[1], 2); next } /^\+.*\*\*\[.*\]\(/ { print n } /^\+/ { n++ }' \
+            | while read -r n; do awk -v l="$n" '/^## / { s = $0 } NR == l { print s; exit }' README.md; done \
+            | grep -c '^## 🤖 Agents' || true)
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          echo "Added Agents entries: $count"
+
+      - name: Read a2a-target
+        id: target
+        if: steps.agents.outputs.count != '0'
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          # First a2a-target line with a value, ignoring the template's HTML comments.
+          line=$(printf '%s\n' "$BODY" | tr -d '\r' | perl -0pe 's/<!--.*?-->//gs' \
+            | grep -m1 -E '^a2a-target:[[:space:]]*[^[:space:]]' || true)
+          if [ -z "$line" ]; then
+            echo "::error::This PR adds an Agents entry but has no a2a-target line. Fill it in as the PR template shows."
+            exit 1
+          fi
+          value=$(sed -E 's/^a2a-target:[[:space:]]*//; s/[[:space:]]+$//' <<< "$line")
+          url_re='^https://[A-Za-z0-9.-]+(:[0-9]+)?(/[A-Za-z0-9._~/-]*)?$'
+          image_re='^([a-z0-9][a-z0-9./_:@-]+)([[:space:]]+port=([0-9]{2,5}))?$'
+          if [[ "$value" =~ $url_re ]]; then
+            echo "url=${value%/}" >> "$GITHUB_OUTPUT"
+          elif [[ "$value" =~ $image_re ]]; then
+            echo "image=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+            echo "port=${BASH_REMATCH[3]:-8080}" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::Invalid a2a-target. Use 'a2a-target: IMAGE port=N' or 'a2a-target: https://host'."
+            exit 1
+          fi
+
+  tck:
+    needs: detect
+    if: needs.detect.outputs.image != '' || needs.detect.outputs.url != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout A2A TCK
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: a2aproject/a2a-tck
+          ref: 263b9cfaf16a554bdfb166a7ba5b67716e946349
+          path: a2a-tck
+          persist-credentials: false
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.3.3
+
+      - name: Start agent container
+        if: needs.detect.outputs.image != ''
+        env:
+          IMAGE: ${{ needs.detect.outputs.image }}
+          PORT: ${{ needs.detect.outputs.port }}
+        run: |
+          # Host networking: agent cards advertise their own URL (e.g. localhost:8080), and the TCK follows it.
+          docker run -d --name sut --network host "$IMAGE"
+          curl -sf --retry 30 --retry-connrefused --retry-delay 2 "http://localhost:$PORT/.well-known/agent-card.json" > /dev/null \
+            || { docker logs sut; exit 1; }
+
+      - name: Run TCK (must level)
+        working-directory: a2a-tck
+        env:
+          SUT: ${{ needs.detect.outputs.url || format('http://localhost:{0}', needs.detect.outputs.port) }}
+        # test_artifacts.py checks replies to canned TCK scenario prompts that only the TCK's own SUT
+        # implements, so no real agent can pass it (inference-gateway/mock-agent: 67 pass, 5 fail there).
+        run: uv run ./run_tck.py --sut-host "$SUT" --level must -- --ignore=tests/compatibility/core_operations/test_artifacts.py

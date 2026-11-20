@@ -13,7 +13,7 @@
   <a href="https://github.com/inference-gateway/awesome-a2a/commits/main"><img src="https://img.shields.io/github/last-commit/inference-gateway/awesome-a2a?color=blue&style=flat-square" alt="Last commit"/></a>
 </p>
 
-The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless communication and coordination between AI agents. This list showcases tested, working A2A-compatible agents, tools, libraries, and resources.
+The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless communication and coordination between AI agents. This list showcases free and open source, tested, working A2A-compatible agents, tools, libraries, and resources.
 
 > [!TIP]
 > **New to A2A?** Start with the [Agent Development Kit (ADK)](https://github.com/inference-gateway/adk) and ship your first A2A-compatible agent in minutes.
@@ -25,7 +25,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_10 agents · 21 tools & libraries · 4 docs · 2 examples · Last updated 2026-09-16_
+_11 agents · 21 tools & libraries · 4 docs · 2 examples · Last updated 2026-11-20_
 
 ## 📑 Contents
 
@@ -169,7 +169,7 @@ Contributions are welcome! Adding a new agent or tool takes three steps:
 
 1. **Fork** this repository.
 2. **Add your entry** to the right section, following the format below.
-3. **Open a pull request** with a brief explanation of what you're adding.
+3. **Open a pull request** and fill in the template, including why the project helps the open source ecosystem.
 
 **Entry format:**
 
@@ -178,6 +178,26 @@ Contributions are welcome! Adding a new agent or tool takes three steps:
 ```
 
 > [!IMPORTANT]
+> **Free and open source only.** This is a neutral, non-commercial list - not an advertising channel.
+> - The project's source must be public under an [OSI-approved license](https://opensource.org/licenses). Link the source repository, not a product or marketing site.
+> - **Do not open a PR if the product has commercial intent**: paid or hosted-only services, freemium funnels, marketplaces, paid APIs, or links whose main purpose is to promote a business.
+> - **No duplicates.** Search the list first. If a similar project is listed, explain what is different.
+> - **Explain in the PR why your project helps others in the open source ecosystem, not only what it is.** A feature list or product description is not enough. Say who benefits, what other builders can reuse, fork, or learn from it, and what gap it fills next to what is already listed. PRs that only describe the project are not reviewed.
+> - **Agents must pass the [A2A TCK](https://github.com/a2aproject/a2a-tck)** (`must` level). Give a container image or a public endpoint in the PR template.
+> - Change only `README.md`. Submissions must come from people, not bots or automated mass-submission accounts.
+>
+> Entries added before 2026-11-20 predate this policy and may be reviewed later.
+
+**How PRs are scored.** When a maintainer picks up a pull request, they add the `in-review` label. That posts a readiness score (0-100) as a comment, updated on each push while the PR is in review:
+
+- **Hard rules** - an OSI-licensed public GitHub repo, not already listed, not archived, only `README.md` changed, opened by a person (not a bot account), and for agents a passing A2A TCK run. Breaking one marks the PR "Not eligible".
+- **Entry (45)** - format, one entry per PR, updated stats line, A2A evidence in the repo, examples, recent activity.
+- **Contributor (30)** - your merged vs closed pull requests on other projects, account age, and open vs merged volume.
+- **Review (25)** - an AI review (Claude Haiku) of why the project helps the ecosystem, commercial intent, and near-duplicates.
+
+PRs scoring 80+ are reviewed first. The score is advisory: maintainers make the final call.
+
+> [!NOTE]
 > **Quality standards.** Submissions should:
 > - ✅ Follow the A2A protocol specification
 > - ✅ Include comprehensive documentation
