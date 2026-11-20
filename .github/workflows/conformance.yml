@@ -52,13 +52,16 @@ jobs:
         env:
           BODY: ${{ github.event.pull_request.body }}
         run: |
-          line=$(printf '%s\n' "$BODY" | tr -d '\r' | perl -0pe 's/<!--.*?-->//gs' \
-            | grep -m1 -E '^a2a-target:[[:space:]]*[^[:space:]]' || true)
-          if [ -z "$line" ]; then
-            echo "::error::This PR adds an Agents entry but has no a2a-target line. Fill it in as the PR template shows."
+          text=$(printf '%s\n' "$BODY" | tr -d '\r' | perl -0pe 's/<!--.*?-->//gs')
+          value=$(grep -m1 -E '^a2a-target:[[:space:]]*[^[:space:]]' <<< "$text" | sed -E 's/^a2a-target:[[:space:]]*//; s/[[:space:]]+$//')
+          if [ -z "$value" ]; then
+            value=$({ echo "$text"; git diff -U0 HEAD^1 HEAD -- README.md; } \
+              | grep -oE 'https://[A-Za-z0-9.:/_~-]+/\.well-known/agent-card\.json' | head -n 1 | sed 's#/\.well-known/agent-card\.json$##')
+          fi
+          if [ -z "$value" ]; then
+            echo "::error::No A2A endpoint found. Add an 'a2a-target:' line (see the PR template) or the agent card URL (https://host/.well-known/agent-card.json) to the PR description."
             exit 1
           fi
-          value=$(sed -E 's/^a2a-target:[[:space:]]*//; s/[[:space:]]+$//' <<< "$line")
           url_re='^https://[A-Za-z0-9.-]+(:[0-9]+)?(/[A-Za-z0-9._~/-]*)?$'
           image_re='^([a-z0-9][a-z0-9./_:@-]+)([[:space:]]+port=([0-9]{2,5}))?$'
           if [[ "$value" =~ $url_re ]]; then
@@ -78,6 +81,8 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'in-review')
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    env:
+      SUT: ${{ needs.detect.outputs.url || format('http://localhost:{0}', needs.detect.outputs.port) }}
 
     steps:
       - name: Checkout A2A TCK
@@ -95,14 +100,24 @@ jobs:
         if: needs.detect.outputs.image != ''
         env:
           IMAGE: ${{ needs.detect.outputs.image }}
-          PORT: ${{ needs.detect.outputs.port }}
         run: |
-          docker run -d --name sut --network host "$IMAGE"
-          curl -sf --retry 30 --retry-connrefused --retry-delay 2 "http://localhost:$PORT/.well-known/agent-card.json" > /dev/null \
-            || { docker logs sut; exit 1; }
+          docker run -d --name sut --network host "$IMAGE" \
+            || { echo "::error::Could not pull or start the image $IMAGE. It must be public and start without secrets."; exit 1; }
+
+      - name: Check agent card
+        run: |
+          if ! curl -sf --retry 30 --retry-connrefused --retry-delay 2 "$SUT/.well-known/agent-card.json" > /dev/null; then
+            docker logs sut 2> /dev/null || true
+            echo "::error::No agent card at $SUT/.well-known/agent-card.json. The agent must serve it without secrets or extra setup."
+            exit 1
+          fi
 
       - name: Run TCK (must level)
         working-directory: a2a-tck
-        env:
-          SUT: ${{ needs.detect.outputs.url || format('http://localhost:{0}', needs.detect.outputs.port) }}
-        run: uv run ./run_tck.py --sut-host "$SUT" --level must -- --ignore=tests/compatibility/core_operations/test_artifacts.py
+        run: |
+          status=0
+          uv run ./run_tck.py --sut-host "$SUT" --level must -- --ignore=tests/compatibility/core_operations/test_artifacts.py > "$RUNNER_TEMP/tck.log" 2>&1 || status=$?
+          cat "$RUNNER_TEMP/tck.log"
+          grep -oE 'AssertionError: .+' "$RUNNER_TEMP/tck.log" | sed 's/^AssertionError: //' | sort -u | head -n 20 \
+            | while IFS= read -r m; do echo "::error title=A2A TCK::${m//\%/%25}"; done
+          exit "$status"
