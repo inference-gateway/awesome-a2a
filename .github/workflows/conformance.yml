@@ -1,0 +1,123 @@
+---
+name: Conformance
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+      - labeled
+    paths:
+      - README.md
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    runs-on: ubuntu-24.04
+    outputs:
+      image: ${{ steps.target.outputs.image }}
+      port: ${{ steps.target.outputs.port }}
+      url: ${{ steps.target.outputs.url }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Find added Agents entries
+        id: agents
+        run: |
+          git diff -U0 HEAD^1 HEAD -- README.md > "$RUNNER_TEMP/readme.diff"
+          count=$(awk 'FNR == 1 { pass++ } { url = "" } match($0, /\]\(https?:\/\/[^)]+\)/) { url = substr($0, RSTART, RLENGTH) }
+              pass == 1 { if (/^-.*\*\*\[/ && url != "") removed[url]; next }
+              /^@@/ { split($3, a, ","); n = substr(a[1], 2); next }
+              /^\+.*\*\*\[.*\]\(/ && !(url in removed) { print n }
+              /^\+/ { n++ }' "$RUNNER_TEMP/readme.diff" "$RUNNER_TEMP/readme.diff" \
+            | while read -r n; do awk -v l="$n" '/^## / { s = $0 } NR == l { print s; exit }' README.md; done \
+            | grep -c '^## 🤖 Agents' || true)
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          echo "Added Agents entries: $count"
+
+      - name: Read a2a-target
+        id: target
+        if: steps.agents.outputs.count != '0'
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          text=$(printf '%s\n' "$BODY" | tr -d '\r' | perl -0pe 's/<!--.*?-->//gs')
+          value=$(grep -m1 -E '^a2a-target:[[:space:]]*[^[:space:]]' <<< "$text" | sed -E 's/^a2a-target:[[:space:]]*//; s/[[:space:]]+$//')
+          if [ -z "$value" ]; then
+            value=$({ echo "$text"; git diff -U0 HEAD^1 HEAD -- README.md; } \
+              | grep -oE 'https://[A-Za-z0-9.:/_~-]+/\.well-known/agent-card\.json' | head -n 1 | sed 's#/\.well-known/agent-card\.json$##')
+          fi
+          if [ -z "$value" ]; then
+            echo "::error::No A2A endpoint found. Add an 'a2a-target:' line (see the PR template) or the agent card URL (https://host/.well-known/agent-card.json) to the PR description."
+            exit 1
+          fi
+          url_re='^https://[A-Za-z0-9.-]+(:[0-9]+)?(/[A-Za-z0-9._~/-]*)?$'
+          image_re='^([a-z0-9][a-z0-9./_:@-]+)([[:space:]]+port=([0-9]{2,5}))?$'
+          if [[ "$value" =~ $url_re ]]; then
+            echo "url=${value%/}" >> "$GITHUB_OUTPUT"
+          elif [[ "$value" =~ $image_re ]]; then
+            echo "image=${BASH_REMATCH[1]}" >> "$GITHUB_OUTPUT"
+            echo "port=${BASH_REMATCH[3]:-8080}" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::Invalid a2a-target. Use 'a2a-target: IMAGE port=N' or 'a2a-target: https://host'."
+            exit 1
+          fi
+
+  tck:
+    needs: detect
+    if: >-
+      (needs.detect.outputs.image != '' || needs.detect.outputs.url != '') &&
+      contains(github.event.pull_request.labels.*.name, 'in-review')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      SUT: ${{ needs.detect.outputs.url || format('http://localhost:{0}', needs.detect.outputs.port) }}
+
+    steps:
+      - name: Checkout A2A TCK
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: a2aproject/a2a-tck
+          ref: 263b9cfaf16a554bdfb166a7ba5b67716e946349
+          path: a2a-tck
+          persist-credentials: false
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.3.3
+
+      - name: Start agent container
+        if: needs.detect.outputs.image != ''
+        env:
+          IMAGE: ${{ needs.detect.outputs.image }}
+        run: |
+          docker run -d --name sut --network host "$IMAGE" \
+            || { echo "::error::Could not pull or start the image $IMAGE. It must be public and start without secrets."; exit 1; }
+
+      - name: Check agent card
+        run: |
+          if ! curl -sf --retry 30 --retry-connrefused --retry-delay 2 "$SUT/.well-known/agent-card.json" > /dev/null; then
+            docker logs sut 2> /dev/null || true
+            echo "::error::No agent card at $SUT/.well-known/agent-card.json. The agent must serve it without secrets or extra setup."
+            exit 1
+          fi
+
+      - name: Run TCK (must level)
+        working-directory: a2a-tck
+        run: |
+          status=0
+          uv run ./run_tck.py --sut-host "$SUT" --level must -- --ignore=tests/compatibility/core_operations/test_artifacts.py > "$RUNNER_TEMP/tck.log" 2>&1 || status=$?
+          cat "$RUNNER_TEMP/tck.log"
+          grep -oE 'AssertionError: .+' "$RUNNER_TEMP/tck.log" | sed 's/^AssertionError: //' | sort -u | head -n 20 \
+            | while IFS= read -r m; do echo "::error title=A2A TCK::${m//\%/%25}"; done
+          exit "$status"

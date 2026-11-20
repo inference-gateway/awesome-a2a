@@ -1,0 +1,95 @@
+---
+name: Claude Code
+
+# Thin caller for the org-wide reusable @claude workflow.
+# Source of truth: inference-gateway/.github/.github/workflows/claude.yml
+# Inputs are managed centrally in inference-gateway/.github/repos.yaml (the entry's orchestrators.claude block).
+# Do not hand-edit setup here; change the reusable workflow or repos.yaml instead.
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: 'Free-text task for Claude to work on in this repo'
+        required: true
+        type: string
+      browser:
+        description: 'Enable the browser MCP (mcp__playwright) for this run'
+        required: false
+        type: boolean
+        default: false
+      browser_engine:
+        description: 'Browser backend: chromium | firefox | webkit (installed via Playwright) or lightpanda (CDP container, faster, partial Web API coverage)'
+        required: false
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+          - lightpanda
+        default: chromium
+      effort:
+        description: 'Claude effort level'
+        required: false
+        type: choice
+        options:
+          - low
+          - medium
+          - high
+          - xhigh
+          - max
+        default: medium
+      model:
+        description: 'Claude model'
+        required: false
+        type: choice
+        options:
+          - claude-opus-5
+          - claude-opus-5-5
+          - claude-fable-5
+          - claude-fable-5-1
+          - claude-fable-5-2
+          - claude-sonnet-5
+          - claude-sonnet-5-5
+        default: claude-opus-5-5
+  issue_comment:
+    types:
+      - created
+  pull_request_review_comment:
+    types:
+      - created
+  issues:
+    types:
+      - opened
+      - assigned
+  pull_request_review:
+    types:
+      - submitted
+
+permissions: {}
+
+jobs:
+  claude:
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    uses: inference-gateway/.github/.github/workflows/claude.yml@main
+    with:
+      language: "node"
+      plugins: |
+        DietrichGebert/ponytail
+      browser: ${{ inputs.browser || false }}
+      browser_engine: ${{ inputs.browser_engine || 'chromium' }}
+      effort: ${{ inputs.effort || 'medium' }}
+      model: ${{ inputs.model || 'claude-opus-5-5' }}
+      prompt: ${{ inputs.prompt }}
+    secrets: inherit
