@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
-      pull-requests: write
+      pull-requests: read
       actions: read
     strategy:
       fail-fast: false
@@ -90,7 +90,8 @@ jobs:
 
           entry=$(head -n 1 "$d/entries")
           url=$(grep -oE '\]\(https?://[^)]+\)' <<< "$entry" | head -n 1 | sed -E 's/^\]\(//; s/\)$//')
-          repo_re='^https://github\.com/([A-Za-z0-9-]+)/([A-Za-z0-9._-]+)/?$'
+          # Repo name needs one non-dot character, so "." and ".." can't steer the API path.
+          repo_re='^https://github\.com/([A-Za-z0-9-]+)/([A-Za-z0-9._-]*[A-Za-z0-9_-][A-Za-z0-9._-]*)/?$'
           if [[ "$url" =~ $repo_re ]]; then
             echo "REPO=${BASH_REMATCH[1]}/${BASH_REMATCH[2]%.git}" >> "$GITHUB_ENV"
           fi
@@ -300,12 +301,25 @@ jobs:
           } > "$d/comment.md"
           cat "$d/comment.md" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Generate GitHub App token
+        id: app-token
+        if: steps.collect.outputs.count != '0'
+        uses: actions/create-github-app-token@v3.3.0
+        with:
+          client-id: ${{ secrets.INFERENCE_GATEWAY_MAINTAINER_APP_CLIENT_ID }}
+          private-key: ${{ secrets.INFERENCE_GATEWAY_MAINTAINER_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ github.event.repository.name }}
+          permission-pull-requests: write
+
       - name: Post comment
         if: steps.collect.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           d="$RUNNER_TEMP/pr"
           id=$(gh api --paginate "repos/$GH_REPO/issues/$PR/comments" \
-            --jq '.[] | select(.user.login == "github-actions[bot]" and (.body | startswith("<!-- pr-score:"))) | .id' | head -n 1)
+            --jq '.[] | select(.user.login == "inference-gateway-maintainer[bot]" and (.body | startswith("<!-- pr-score:"))) | .id' | head -n 1)
           if [ -n "$id" ]; then
             gh api -X PATCH "repos/$GH_REPO/issues/comments/$id" -F body=@"$d/comment.md" > /dev/null
           else
@@ -340,7 +354,7 @@ jobs:
             echo "|---|---|---|"
             # shellcheck disable=SC2016 # jq interpolation, not shell
             gh pr list --state open --label in-review --limit 200 --json number,title,comments --jq '.[]
-              | ([.comments[] | select(.body | startswith("<!-- pr-score:"))] | last | .body // "") as $b
+              | ([.comments[] | select(.author.login == "inference-gateway-maintainer" and (.body | startswith("<!-- pr-score:")))] | last | .body // "") as $b
               | ($b | capture("^<!-- pr-score:(?<s>[0-9]+)\\|(?<v>[^>]*) -->")?) as $m
               | select($m != null)
               | [(if $m.v == "Not eligible" then 1 else 0 end), $m.s, $m.v, "#\(.number) \(.title | gsub("\\|"; "/"))"] | @tsv' \
