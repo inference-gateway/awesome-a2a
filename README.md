@@ -69,6 +69,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 
 ### 🔧 Development & Utilities
 - **[Aurelius Agent](https://aureliusagent.dev/)** `Container` `Proprietary` - Strategic planning and orchestration agent for BuilderStudio that breaks complex software work into actionable implementation paths, coordinates coding tasks, prepares project context, guides Hermes Agent execution, and supports repeatable build, smoke-test, and release flows. AgentCard: https://aureliusagent.dev/.well-known/agent-card.json. Docker image: `ghcr.io/wundercorp/aurelius-agent:0.3.9`.
+- **[HANRIA Mandate Check](https://hanria.ai)** `Hosted` `Proprietary` - Free, advisory A2A agent that checks one proposed agent action against an operator's written mandate and returns permit, deny or escalate with the governing clause. It cannot stop an action and keeps no request content. AgentCard: https://hanria.ai/.well-known/agent-card.json.
 
 
 - **[Council of AI - Measurement Agent](https://github.com/CSOAI-ORG/councilof-ai)** `HTML` `MIT` - Public A2A-compatible AI governance measurement agent with a 22-axis board, signed evidence cards, verifiable roots, and a free verifier. Measurement, not certification.
