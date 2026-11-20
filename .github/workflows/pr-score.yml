@@ -1,13 +1,6 @@
 ---
 name: PR score
 
-# Posts a 0-100 review-readiness score on PRs that add a list entry (README "How PRs are scored").
-# Only PRs with the `in-review` label are scored: adding the label runs it, and while the label is on,
-# pushes, edits, and finished Conformance runs re-score it.
-# pull_request_target runs this file from main with a base checkout only: PR content is read through
-# the API as data and never executed, and the AI review step gets no tools.
-# Manual runs re-score every open `in-review` PR and write a ranked table to the run summary.
-
 on:
   pull_request_target:
     branches:
