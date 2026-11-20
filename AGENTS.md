@@ -21,8 +21,7 @@ Changes land via fork + PR to `main`. To add an entry:
 
    `- **[Name](https://github.com/owner/repo)** \`Language\` \`License\` - Brief description of what it does and its key capabilities.`
 
-3. Update the stats line in the header: `_11 agents · 21 tools & libraries · 4 docs · 2 examples · Last updated 2026-11-20_`. Bump the count for the section you touched and the date. Count the actual entries in the touched section and do not trust the old number. It has drifted twice (emem #7 and Council of AI #11 both landed without a bump). The date moves whenever an entry is added or amended, not only on additions.
-4. Keep the `<p align="right"><a href="#-contents">↑ Back to top</a></p>` footer after each major section.
+3. Keep the `<p align="right"><a href="#-contents">↑ Back to top</a></p>` footer after each major section.
 
 ## Conventions
 
@@ -63,3 +62,5 @@ Earlier work was documentation-only: restructuring README sections, adding the o
 2026-11-20: /init re-verified this guide against the README and added the stats-line recount rule above (the tools count had drifted 20 -> 21 when emem was added in #7), and the README stats line was corrected in the same PR. The README's last entry amendment before that was #9 (2026-09-16).
 
 2026-11-20: Contribution policy made FOSS-only and non-commercial (existing non-OSI entries grandfathered). PRs must explain why the project helps the ecosystem. Added the PR template, A2A TCK conformance for agents, and the PR readiness score. Agents count corrected 10 -> 11 (Council of AI #11).
+
+2026-11-20: Removed the README stats line, its recount rule, and its scorer check. Every entry PR edited that one line, so PRs kept conflicting with each other.
