@@ -21,7 +21,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 ## ⚡ Featured
 
 - **[Agent Development Kit (ADK)](https://github.com/inference-gateway/adk)** - The fastest way to build A2A agents in Go (Rust and TypeScript flavors available too).
-- **[Agent Definition Language (ADL)](https://github.com/inference-gateway/adl)** - Declare your agent in YAML; scaffold Go, Rust, or TypeScript with one CLI command.
+- **[Agent Definition Language (ADL)](https://github.com/inference-gateway/adl)** - Declare your agent in YAML and scaffold Go, Rust, or TypeScript with one CLI command.
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
@@ -53,7 +53,7 @@ _11 agents · 21 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 - [🤝 Contributing](#-contributing)
 
 > [!NOTE]
-> Each entry is tagged with its primary language and license. `⭐ Featured` marks curator picks; `🆕 New` marks entries added in the last ~90 days.
+> Each entry is tagged with its primary language and license. `⭐ Featured` marks curator picks, and `🆕 New` marks entries added in the last ~90 days.
 
 ## 🤖 Agents
 
@@ -63,7 +63,7 @@ _11 agents · 21 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 
 ### 🛒 Commerce & Marketplaces
 
-- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`). The A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
 
 ### 📊 DevOps & Observability
 
@@ -73,7 +73,7 @@ _11 agents · 21 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 - **[Aurelius Agent](https://aureliusagent.dev/)** `Container` `Proprietary` - Strategic planning and orchestration agent for BuilderStudio that breaks complex software work into actionable implementation paths, coordinates coding tasks, prepares project context, guides Hermes Agent execution, and supports repeatable build, smoke-test, and release flows. AgentCard: https://aureliusagent.dev/.well-known/agent-card.json. Docker image: `ghcr.io/wundercorp/aurelius-agent:0.3.9`.
 
 
-- **[Council of AI — Measurement Agent](https://github.com/CSOAI-ORG/councilof-ai)** `HTML` `MIT` - Public A2A-compatible AI governance measurement agent with a 22-axis board, signed evidence cards, verifiable roots, and a free verifier. Measurement, not certification.
+- **[Council of AI - Measurement Agent](https://github.com/CSOAI-ORG/councilof-ai)** `HTML` `MIT` - Public A2A-compatible AI governance measurement agent with a 22-axis board, signed evidence cards, verifiable roots, and a free verifier. Measurement, not certification.
 - **[Mock Agent](https://github.com/inference-gateway/mock-agent)** `Go` `Apache-2.0` - A2A agent that returns canned responses - useful for testing client integrations and CI flows without a real backend.
 - **[OpenAgents](https://github.com/openagents-org/openagents)** `Python` `Apache-2.0` - Open-source platform for building AI agent networks with native A2A protocol support alongside MCP, WebSocket, gRPC, and HTTP.
 
