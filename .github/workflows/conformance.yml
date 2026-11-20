@@ -10,6 +10,7 @@ on:
       - edited
       - synchronize
       - reopened
+      - labeled
     paths:
       - README.md
 
@@ -72,7 +73,9 @@ jobs:
 
   tck:
     needs: detect
-    if: needs.detect.outputs.image != '' || needs.detect.outputs.url != ''
+    if: >-
+      (needs.detect.outputs.image != '' || needs.detect.outputs.url != '') &&
+      contains(github.event.pull_request.labels.*.name, 'in-review')
     runs-on: ubuntu-24.04
     timeout-minutes: 15
 
