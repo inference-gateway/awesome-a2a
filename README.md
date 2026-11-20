@@ -177,6 +177,8 @@ Contributions are welcome! Adding a new agent or tool takes three steps:
 - **[Name](https://github.com/owner/repo)** `Language` `License` - Brief description of what it does and its key capabilities.
 ```
 
+Use plain hyphens instead of em dashes, and commas or periods instead of semicolons.
+
 > [!IMPORTANT]
 > **Free and open source only.** This is a neutral, non-commercial list - not an advertising channel.
 > - The project's source must be public under an [OSI-approved license](https://opensource.org/licenses). Link the source repository, not a product or marketing site.
