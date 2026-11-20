@@ -1,11 +1,6 @@
 ---
 name: Conformance
 
-# Runs the A2A TCK (must level) against the `a2a-target` of PRs that add an Agents entry.
-# Modeled on the `tck` job in inference-gateway/adk .github/workflows/ci.yml.
-# Uses pull_request on purpose: it starts a container the submitter chose, so it runs in the
-# fork context with no secrets and a read-only token. pr-score.yml reads the `tck` job result.
-
 on:
   pull_request:
     branches:
