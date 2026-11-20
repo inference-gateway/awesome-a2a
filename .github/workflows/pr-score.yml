@@ -129,17 +129,18 @@ jobs:
               echo "conformance pending" >> "$d/provisional"
             else
               id=$(jq -r .databaseId <<< "$run")
+              echo "$id" > "$d/tck-run"
               link="[run]($GITHUB_SERVER_URL/$GH_REPO/actions/runs/$id)"
               jobs=$(gh run view "$id" --json jobs --jq '[.jobs[] | {(.name): .conclusion}] | add')
               case "$(jq -r '.tck // ""' <<< "$jobs")/$(jq -r '.detect // ""' <<< "$jobs")" in
                 success/*) gate "A2A TCK conformance" 1 "must level passed, $link" ;;
                 */failure) gate "A2A TCK conformance" 0 "no usable A2A endpoint, see below, $link" ;;
-                failure/*) gate "A2A TCK conformance" 0 "TCK failed, see below, $link" ;;
+                failure/*) gate "A2A TCK conformance" 0 "TCK failed, see the A2A TCK report comment, $link" ;;
                 *) gate "A2A TCK conformance" 0 "the TCK did not run, $link" ;;
               esac
               gh run view "$id" --json jobs --jq '.jobs[] | select(.conclusion == "failure") | .databaseId' \
-                | while read -r job; do gh api "repos/$GH_REPO/check-runs/$job/annotations" --jq '.[] | select(.annotation_level == "failure") | .message'; done \
-                | grep -v '^Process completed with exit code' | sed 's/[][<>@!`|]//g' | cut -c 1-200 | head -n 10 | sed 's/^/- /' > "$d/tck.md" || true
+                | while read -r job; do gh api "repos/$GH_REPO/check-runs/$job/annotations" --jq '.[] | select(.annotation_level == "failure" and (.title // "") == "") | .message'; done \
+                | grep -v '^Process completed with exit code' | sed -E -e 's/[][<>@!`|]//g' -e 's#([Hh][Tt][Tt][Pp][Ss]?://|[Ww][Ww][Ww]\.)##g' | cut -c 1-200 | head -n 10 | sed 's/^/- /' > "$d/tck.md" || true
             fi
           fi
 
@@ -242,7 +243,7 @@ jobs:
           AI_OUTCOME: ${{ steps.ai.outcome }}
         run: |
           d="$RUNNER_TEMP/pr"
-          clean() { tr '\r\n' '  ' | sed -e 's/[][<>@!`|]//g' -e 's/^ *//' -e 's/ *$//' | cut -c "1-$1"; }
+          clean() { tr '\r\n' '  ' | sed -E -e 's/[][<>@!`|]//g' -e 's#([Hh][Tt][Tt][Pp][Ss]?://|[Ww][Ww][Ww]\.)##g' -e 's/^ *//' -e 's/ *$//' | cut -c "1-$1"; }
           if [ "$AI_OUTCOME" = success ]; then
             why=$(jq '[0, ([10, .ecosystem_why] | min)] | max' "$d/ai.json")
             nc=$(jq '[0, ([10, .non_commercial] | min)] | max' "$d/ai.json")
@@ -288,6 +289,52 @@ jobs:
           } > "$d/comment.md"
           cat "$d/comment.md" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Compose TCK report
+        if: steps.collect.outputs.count != '0'
+        continue-on-error: true
+        run: |
+          d="$RUNNER_TEMP/pr"
+          [ -s "$d/tck-run" ] || exit 0
+          run=$(cat "$d/tck-run")
+          gh run download "$run" -n tck-report -D "$d/tck" || exit 0
+          [ -f "$d/tck/compatibility.json" ] && [ "$(wc -c < "$d/tck/compatibility.json")" -lt 2000000 ] || exit 0
+          touch "$d/tck/requirements.tsv"
+          jq -r --rawfile req "$d/tck/requirements.tsv" --arg run "$GITHUB_SERVER_URL/$GH_REPO/actions/runs/$run" '
+            def clean: tostring | gsub("[\\[\\]<>@!`|\r\n]"; " ") | gsub("(?i)(https?://|www\\.)"; "") | gsub(" +"; " ") | .[0:200];
+            def num: (tonumber? // 0) | floor | if . < 0 then 0 elif . > 100000 then 100000 else . end;
+            def obj: if type == "object" then . else {} end;
+            def arr: if type == "array" then . else [] end;
+            ($req | split("\n") | map(split("\t"))
+              | map(select(length == 3 and (.[0] | test("^[A-Za-z0-9_-]{1,40}$"))
+                and (.[2] | test("^https://github\\.com/a2aproject/a2a-tck/blob/[0-9a-f]{40}/tck/requirements/[a-z_]+\\.py#L[0-9]+$"))))
+              | map({key: .[0], value: {title: (.[1] | clean), url: .[2]}}) | from_entries) as $r
+            | (.per_requirement | obj | to_entries
+              | map(select((.key | test("^[A-Za-z0-9_-]{1,40}$")) and (.value | type) == "object"))) as $reqs
+            | ($reqs | map(select(.value.level == "MUST" and .value.status == "FAIL"))) as $fail
+            | "<!-- tck-report -->",
+              "### A2A TCK report: \(if ($fail | length) == 0 then "all tested MUST requirements pass" else "\($fail | length) MUST requirements to fix" end)",
+              "",
+              "Run against `\(.summary | obj | .sut_url // "" | clean)` at the `must` level. [Run log](\($run)).",
+              "",
+              "| Level | Passed | Failed | Skipped | Not tested | Total |",
+              "|---|---|---|---|---|---|",
+              (["MUST", "SHOULD", "MAY"][] as $l | ($reqs | map(select(.value.level == $l))) as $x
+                | "| \($l) | \([["PASS", "FAIL", "SKIPPED", "NOT TESTED"][] as $s | $x | map(select(.value.status == $s)) | length] | map(tostring) | join(" | ")) | \($x | length) |"),
+              "",
+              "| Transport | Passed | Failed | Skipped | Total |",
+              "|---|---|---|---|---|",
+              (.per_transport | obj | to_entries[] | select(.key | test("^[a-z_]{1,20}$")) | .value |= obj
+                | "| \(.key) | \(.value.passed | num) | \(.value.failed | num) | \(.value.skipped | num) | \(.value.total | num) |"),
+              (if ($fail | length) > 0 then
+                "", "**Must fix**", "", "| Requirement | What failed |", "|---|---|",
+                ($fail[0:25][] | (.key as $k | $r[$k]) as $m
+                  | "| \(if $m then "[\(.key)](\($m.url)) \($m.title)" else .key end) | \(.value.errors | arr | map(clean) | unique | join(" / ") | .[0:300]) |"),
+                (if ($fail | length) > 25 then "", "And \(($fail | length) - 25) more in the run log." else empty end)
+              else empty end)
+          ' "$d/tck/compatibility.json" > "$d/tck-comment.tmp"
+          mv "$d/tck-comment.tmp" "$d/tck-comment.md"
+          cat "$d/tck-comment.md" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Generate GitHub App token
         id: app-token
         if: steps.collect.outputs.count != '0'
@@ -306,13 +353,17 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           d="$RUNNER_TEMP/pr"
-          id=$(gh api --paginate "repos/$GH_REPO/issues/$PR/comments" \
-            --jq '.[] | select(.user.login == "inference-gateway-maintainer[bot]" and (.body | startswith("<!-- pr-score:"))) | .id' | head -n 1)
-          if [ -n "$id" ]; then
-            gh api -X PATCH "repos/$GH_REPO/issues/comments/$id" -F body=@"$d/comment.md" > /dev/null
-          else
-            gh pr comment "$PR" --body-file "$d/comment.md"
-          fi
+          upsert() {
+            id=$(gh api --paginate "repos/$GH_REPO/issues/$PR/comments" \
+              --jq ".[] | select(.user.login == \"inference-gateway-maintainer[bot]\" and (.body | startswith(\"$1\"))) | .id" | head -n 1)
+            if [ -n "$id" ]; then
+              gh api -X PATCH "repos/$GH_REPO/issues/comments/$id" -F body=@"$2" > /dev/null
+            else
+              gh pr comment "$PR" --body-file "$2"
+            fi
+          }
+          upsert "<!-- pr-score:" "$d/comment.md"
+          if [ -s "$d/tck-comment.md" ]; then upsert "<!-- tck-report -->" "$d/tck-comment.md"; fi
 
       - name: Set PR status
         if: steps.collect.outputs.count != '0'
