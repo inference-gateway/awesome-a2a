@@ -83,6 +83,8 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 
 - **[GitDealFlow Signal Agent](https://github.com/kindrat86/mcp-deal-flow-signal)** `JavaScript` `MIT` - A2A agent for VC deal-flow and startup discovery. Surfaces commit velocity, contributor growth, and breakout signals across 15 sectors and 350+ startups from public GitHub activity. Five read-only skills, no auth, weekly refresh. AgentCard at [signals.gitdealflow.com](https://signals.gitdealflow.com/.well-known/agent-card.json).
 
+- **[Tenantback CAM Audit Agent](https://tenantback.com)** `Hosted` `Proprietary` - A2A agent that audits a commercial landlord's CAM / operating expense reconciliation against the tenant's lease and returns every overcharge with the lease clause, statement line and arithmetic. Skills `audit_cam_reconciliation` and `abstract_lease` need no auth; `portfolio_status` takes an API key. AgentCard at [tenantback.com](https://tenantback.com/.well-known/agent-card.json).
+
 ### 📅 Productivity & Calendar
 
 - **[Google Calendar Agent](https://github.com/inference-gateway/google-calendar-agent)** `Go` `Apache-2.0` `⭐ Featured` - A2A-compatible agent for Google Calendar with full CRUD operations and event management capabilities.
