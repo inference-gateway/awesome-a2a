@@ -34,8 +34,6 @@ jobs:
       - name: Find added Agents entries
         id: agents
         run: |
-          # HEAD is the PR merge commit, HEAD^1 the base. Print the README line number of each added
-          # entry, then the "## " section heading above it, and count the ones under Agents.
           count=$(git diff -U0 HEAD^1 HEAD -- README.md \
             | awk '/^@@/ { split($3, a, ","); n = substr(a[1], 2); next } /^\+.*\*\*\[.*\]\(/ { print n } /^\+/ { n++ }' \
             | while read -r n; do awk -v l="$n" '/^## / { s = $0 } NR == l { print s; exit }' README.md; done \
