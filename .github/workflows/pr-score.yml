@@ -44,6 +44,7 @@ jobs:
       contents: read
       pull-requests: read
       actions: read
+      checks: read
       statuses: write
     strategy:
       fail-fast: false
@@ -124,7 +125,7 @@ jobs:
           if grep -q '^## 🤖 Agents' "$d/section"; then
             run=$(gh run list --workflow conformance.yml --commit "$HEAD_SHA" --limit 1 --json databaseId,status --jq '.[0] // {}' || echo '{}')
             if [ "$(jq -r '.status // ""' <<< "$run")" != completed ]; then
-              echo "| ⏳ | A2A TCK conformance | pending: a maintainer must approve the Conformance run, or it is still running |" >> "$d/gates.md"
+              echo "| ⏳ | A2A TCK conformance | pending: no finished Conformance run for the latest commit yet (it may need a maintainer's approval) |" >> "$d/gates.md"
               echo "conformance pending" >> "$d/provisional"
             else
               id=$(jq -r .databaseId <<< "$run")
@@ -132,10 +133,13 @@ jobs:
               jobs=$(gh run view "$id" --json jobs --jq '[.jobs[] | {(.name): .conclusion}] | add')
               case "$(jq -r '.tck // ""' <<< "$jobs")/$(jq -r '.detect // ""' <<< "$jobs")" in
                 success/*) gate "A2A TCK conformance" 1 "must level passed, $link" ;;
-                */failure) gate "A2A TCK conformance" 0 "add a valid \`a2a-target\` line (see the PR template), $link" ;;
-                failure/*) gate "A2A TCK conformance" 0 "TCK failed, $link" ;;
+                */failure) gate "A2A TCK conformance" 0 "no usable A2A endpoint, see below, $link" ;;
+                failure/*) gate "A2A TCK conformance" 0 "TCK failed, see below, $link" ;;
                 *) gate "A2A TCK conformance" 0 "the TCK did not run, $link" ;;
               esac
+              gh run view "$id" --json jobs --jq '.jobs[] | select(.conclusion == "failure") | .databaseId' \
+                | while read -r job; do gh api "repos/$GH_REPO/check-runs/$job/annotations" --jq '.[] | select(.annotation_level == "failure") | .message'; done \
+                | grep -v '^Process completed with exit code' | sed 's/[][<>@!`|]//g' | cut -c 1-200 | head -n 10 | sed 's/^/- /' > "$d/tck.md" || true
             fi
           fi
 
@@ -271,6 +275,7 @@ jobs:
             echo "| | Rule | Detail |"
             echo "|---|---|---|"
             cat "$d/gates.md"
+            if [ -s "$d/tck.md" ]; then echo; echo "**Why A2A conformance failed**"; echo; cat "$d/tck.md"; fi
             echo
             echo "**Points**"
             echo
