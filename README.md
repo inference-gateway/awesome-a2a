@@ -61,7 +61,8 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 
 ### 🛒 Commerce & Marketplaces
 
-- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`). The A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[Screwtape](https://screwtape.ai)** `Hosted` `Proprietary` - Hosted A2A and MCP service that checks whether a seller is safe to pay before an agent pays, and returns allow, review, or block with a signed receipt. 3 free calls a day with no key, or 10 with a free key, then $0.005 per call. Payment-check: https://screwtape.ai/v1/payment-check. MCP: https://screwtape.ai/mcp. AgentCard: https://screwtape.ai/.well-known/agent-card.json.
 
 ### 📊 DevOps & Observability
 
