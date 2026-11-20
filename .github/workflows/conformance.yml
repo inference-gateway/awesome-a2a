@@ -49,7 +49,6 @@ jobs:
         env:
           BODY: ${{ github.event.pull_request.body }}
         run: |
-          # First a2a-target line with a value, ignoring the template's HTML comments.
           line=$(printf '%s\n' "$BODY" | tr -d '\r' | perl -0pe 's/<!--.*?-->//gs' \
             | grep -m1 -E '^a2a-target:[[:space:]]*[^[:space:]]' || true)
           if [ -z "$line" ]; then
