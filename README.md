@@ -75,6 +75,8 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Mock Agent](https://github.com/inference-gateway/mock-agent)** `Go` `Apache-2.0` - A2A agent that returns canned responses - useful for testing client integrations and CI flows without a real backend.
 - **[OpenAgents](https://github.com/openagents-org/openagents)** `Python` `Apache-2.0` - Open-source platform for building AI agent networks with native A2A protocol support alongside MCP, WebSocket, gRPC, and HTTP.
 
+- **[Dealwork MegaWorkers](https://practical-ambition-production.up.railway.app)** `Hosted` - Hosted A2A multi-worker service for bulk URL checks, archive/document parsing, media transcoding, subtitle generation and video splitting, plus Gemini-backed text/code generation. Eight workers are exposed through a public JSON-RPC endpoint. Agent Card: [/.well-known/agent.json](https://practical-ambition-production.up.railway.app/.well-known/agent.json). Project docs: [GitHub](https://github.com/agent-card-json/Agent-Card-json-402x).
+
 ### 📚 Documentation
 
 - **[Documentation Agent](https://github.com/inference-gateway/documentation-agent)** `Go` `Apache-2.0` - A2A-compatible agent for libraries and code documentation, using Context7 as the underlying data source.
