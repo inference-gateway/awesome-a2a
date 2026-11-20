@@ -116,8 +116,26 @@ jobs:
         working-directory: a2a-tck
         run: |
           status=0
-          uv run ./run_tck.py --sut-host "$SUT" --level must -- --ignore=tests/compatibility/core_operations/test_artifacts.py > "$RUNNER_TEMP/tck.log" 2>&1 || status=$?
-          cat "$RUNNER_TEMP/tck.log"
-          grep -oE 'AssertionError: .+' "$RUNNER_TEMP/tck.log" | sed 's/^AssertionError: //' | sort -u | head -n 20 \
-            | while IFS= read -r m; do echo "::error title=A2A TCK::${m//\%/%25}"; done
+          uv run ./run_tck.py --sut-host "$SUT" --level must -- --ignore=tests/compatibility/core_operations/test_artifacts.py || status=$?
+          mkdir -p reports
+          awk -v base="https://github.com/a2aproject/a2a-tck/blob/$(git rev-parse HEAD)/" \
+            'match($0, /id="[A-Za-z0-9_-]+"/) { id = substr($0, RSTART + 4, RLENGTH - 5); line = FNR; file = FILENAME; next }
+             id != "" && match($0, /title="[^"]*"/) { print id "\t" substr($0, RSTART + 7, RLENGTH - 8) "\t" base file "#L" line; id = "" }' \
+            tck/requirements/*.py > reports/requirements.tsv
+          if [ -f reports/compatibility.json ]; then
+            jq -r '.per_requirement | to_entries[] | select(.value.level == "MUST" and .value.status == "FAIL")
+              | "::error title=\(.key)::\(.value.errors | unique | join(" / ") | gsub("%"; "%25") | gsub("\r"; "%0D") | gsub("\n"; "%0A"))"' \
+              reports/compatibility.json
+          fi
           exit "$status"
+
+      - name: Upload TCK report
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: tck-report
+          path: |
+            a2a-tck/reports/compatibility.json
+            a2a-tck/reports/requirements.tsv
+          if-no-files-found: ignore
+          retention-days: 7
