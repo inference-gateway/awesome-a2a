@@ -21,7 +21,6 @@ permissions: {}
 
 jobs:
   targets:
-    # PR events: only labeled PRs, and of `labeled` events only the one that adds `in-review`.
     if: >-
       github.event_name != 'pull_request_target' ||
       (contains(github.event.pull_request.labels.*.name, 'in-review') &&
