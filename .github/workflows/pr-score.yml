@@ -61,7 +61,6 @@ jobs:
       actions: read
     strategy:
       fail-fast: false
-      # One at a time: the search API allows 30 requests a minute and each PR uses 3.
       max-parallel: 1
       matrix:
         pr: ${{ fromJSON(needs.targets.outputs.prs) }}
