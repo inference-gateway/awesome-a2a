@@ -43,7 +43,6 @@ jobs:
         run: |
           case "$EVENT" in
             pull_request_target) prs="[$PR]" ;;
-            # workflow_run.pull_requests is empty for fork PRs, so find the PR by its head commit.
             workflow_run) prs=$(gh pr list --state open --label in-review --search "$HEAD_SHA" --json number --jq '[.[].number]') ;;
             *) prs=$(gh pr list --state open --label in-review --limit 200 --json number --jq '[.[].number]') ;;
           esac
@@ -82,15 +81,15 @@ jobs:
           d="$RUNNER_TEMP/pr"; mkdir -p "$d"; : > "$d/rows.md"; : > "$d/gates.md"; : > "$d/failed"; : > "$d/points"
           gh pr view "$PR" --json author,body,files,headRefOid,title > "$d/pr.json"
           gh pr diff "$PR" > "$d/diff"
-          # Any added line with a bold link counts, so malformed entries are scored (and lose format points).
-          grep -E '^\+.*\*\*\[.*\]\(' "$d/diff" | sed 's/^+//' > "$d/entries" || true
+          awk 'FNR == 1 { pass++ } { url = "" } match($0, /\]\(https?:\/\/[^)]+\)/) { url = substr($0, RSTART, RLENGTH) }
+              pass == 1 { if (/^-.*\*\*\[/ && url != "") removed[url]; next }
+              /^\+.*\*\*\[.*\]\(/ && !(url in removed) { print substr($0, 2) }' "$d/diff" "$d/diff" > "$d/entries"
           count=$(wc -l < "$d/entries" | tr -d ' ')
           echo "count=$count" >> "$GITHUB_OUTPUT"
           if [ "$count" = 0 ]; then echo "No added entry, nothing to score."; exit 0; fi
 
           entry=$(head -n 1 "$d/entries")
           url=$(grep -oE '\]\(https?://[^)]+\)' <<< "$entry" | head -n 1 | sed -E 's/^\]\(//; s/\)$//')
-          # Repo name needs one non-dot character, so "." and ".." can't steer the API path.
           repo_re='^https://github\.com/([A-Za-z0-9-]+)/([A-Za-z0-9._-]*[A-Za-z0-9_-][A-Za-z0-9._-]*)/?$'
           if [[ "$url" =~ $repo_re ]]; then
             echo "REPO=${BASH_REMATCH[1]}/${BASH_REMATCH[2]%.git}" >> "$GITHUB_ENV"
@@ -99,7 +98,6 @@ jobs:
           if [[ "$login" =~ ^[A-Za-z0-9-]+$ ]]; then echo "AUTHOR=$login" >> "$GITHUB_ENV"; fi
           echo "HEAD_SHA=$(jq -r .headRefOid "$d/pr.json")" >> "$GITHUB_ENV"
 
-          # Section of the entry in the PR's README: the nearest "## " heading above it.
           gh api "repos/$GH_REPO/contents/README.md?ref=refs/pull/$PR/head" --jq .content | base64 -d > "$d/README.head"
           line_no=$(grep -nF -- "$entry" "$d/README.head" | head -n 1 | cut -d: -f1)
           awk -v l="${line_no:-0}" '/^## / { s = $0 } NR == l { print s; exit }' "$d/README.head" > "$d/section"
@@ -114,7 +112,6 @@ jobs:
 
           if [ -n "${REPO:-}" ] && gh api "repos/$REPO" > "$d/repo.json" 2> /dev/null && [ "$(jq -r .private "$d/repo.json")" = false ]; then
             gate "Public GitHub repo" 1 "\`$REPO\`"
-            # shortcut: only GitHub links are checked automatically; review GitLab/Codeberg links by hand if they show up.
             spdx=$(jq -r '.license.spdx_id // "none"' "$d/repo.json")
             osi='^(MIT|MIT-0|Apache-2\.0|BSD-2-Clause|BSD-3-Clause|0BSD|ISC|MPL-2\.0|GPL-2\.0|GPL-3\.0|LGPL-2\.1|LGPL-3\.0|AGPL-3\.0|EPL-2\.0|EUPL-1\.2|BSL-1\.0|Unlicense|Zlib)$'
             if [[ "$spdx" =~ $osi ]]; then gate "OSI-approved license" 1 "\`$spdx\`"; else gate "OSI-approved license" 0 "\`$spdx\` is not an OSI-approved license GitHub can detect"; fi
@@ -161,7 +158,7 @@ jobs:
           pts() { echo "| $1 | $2 | $3/$4 |" >> "$d/rows.md"; echo "$3" >> "$d/points"; }
           entry=$(head -n 1 "$d/entries")
 
-          # shellcheck disable=SC2016 # literal backticks in the entry tags
+          # shellcheck disable=SC2016
           fmt_re='^- \*\*\[[^]]+\]\(https://[^)]+\)\*\* (`[^`]+` )+- .+$'
           f=0; [[ "$entry" =~ $fmt_re ]] && f=$((f + 5)); grep -qE '—|;' "$d/entries" || f=$((f + 5))
           pts "Entry format, no em dashes or semicolons" "$([ "$f" = 10 ] && echo ok || echo 'fix the format, use hyphens instead of em dashes and commas or periods instead of semicolons')" "$f" 10
@@ -193,7 +190,6 @@ jobs:
         run: |
           d="$RUNNER_TEMP/pr"
           pts() { echo "| $1 | $2 | $3/$4 |" >> "$d/rows.md"; echo "$3" >> "$d/points"; }
-          # PRs the author opened on repos they don't own.
           count() { gh api -X GET search/issues -f q="is:pr author:$AUTHOR -user:$AUTHOR $1" --jq .total_count; }
           merged=$(count is:merged); closed=$(count "is:closed is:unmerged"); open=$(count is:open)
 
@@ -255,7 +251,6 @@ jobs:
           AI_OUTCOME: ${{ steps.ai.outcome }}
         run: |
           d="$RUNNER_TEMP/pr"
-          # Model text is untrusted: one line, no HTML, mentions, links, images, code, or table breaks.
           clean() { tr '\r\n' '  ' | sed -e 's/[][<>@!`|]//g' -e 's/^ *//' -e 's/ *$//' | cut -c "1-$1"; }
           if [ "$AI_OUTCOME" = success ]; then
             why=$(jq '[0, ([10, .ecosystem_why] | min)] | max' "$d/ai.json")
@@ -353,7 +348,7 @@ jobs:
             echo
             echo "| Score | Verdict | PR |"
             echo "|---|---|---|"
-            # shellcheck disable=SC2016 # jq interpolation, not shell
+            # shellcheck disable=SC2016
             gh pr list --state open --label in-review --limit 200 --json number,title,comments --jq '.[]
               | ([.comments[] | select(.author.login == "inference-gateway-maintainer" and (.body | startswith("<!-- pr-score:")))] | last | .body // "") as $b
               | ($b | capture("^<!-- pr-score:(?<s>[0-9]+)\\|(?<v>[^>]*) -->")?) as $m

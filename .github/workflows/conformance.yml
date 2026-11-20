@@ -34,8 +34,12 @@ jobs:
       - name: Find added Agents entries
         id: agents
         run: |
-          count=$(git diff -U0 HEAD^1 HEAD -- README.md \
-            | awk '/^@@/ { split($3, a, ","); n = substr(a[1], 2); next } /^\+.*\*\*\[.*\]\(/ { print n } /^\+/ { n++ }' \
+          git diff -U0 HEAD^1 HEAD -- README.md > "$RUNNER_TEMP/readme.diff"
+          count=$(awk 'FNR == 1 { pass++ } { url = "" } match($0, /\]\(https?:\/\/[^)]+\)/) { url = substr($0, RSTART, RLENGTH) }
+              pass == 1 { if (/^-.*\*\*\[/ && url != "") removed[url]; next }
+              /^@@/ { split($3, a, ","); n = substr(a[1], 2); next }
+              /^\+.*\*\*\[.*\]\(/ && !(url in removed) { print n }
+              /^\+/ { n++ }' "$RUNNER_TEMP/readme.diff" "$RUNNER_TEMP/readme.diff" \
             | while read -r n; do awk -v l="$n" '/^## / { s = $0 } NR == l { print s; exit }' README.md; done \
             | grep -c '^## 🤖 Agents' || true)
           echo "count=$count" >> "$GITHUB_OUTPUT"
@@ -90,7 +94,6 @@ jobs:
           IMAGE: ${{ needs.detect.outputs.image }}
           PORT: ${{ needs.detect.outputs.port }}
         run: |
-          # Host networking: agent cards advertise their own URL (e.g. localhost:8080), and the TCK follows it.
           docker run -d --name sut --network host "$IMAGE"
           curl -sf --retry 30 --retry-connrefused --retry-delay 2 "http://localhost:$PORT/.well-known/agent-card.json" > /dev/null \
             || { docker logs sut; exit 1; }
