@@ -16,7 +16,7 @@ Changes land via fork + PR to `main`. To add an entry:
 
    `- **[Name](https://github.com/owner/repo)** \`Language\` \`License\` - Brief description of what it does and its key capabilities.`
 
-3. Update the stats line in the header: `_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_`. Bump the count for the section you touched and the date.
+3. Update the stats line in the header: `_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_`. Bump the count for the section you touched and the date. Count the actual entries in the touched section - do not trust the old number; it has drifted before (the emem PR added an entry without bumping the tools count). The date moves whenever an entry is added or amended, not only on additions.
 4. Keep the `<p align="right"><a href="#-contents">↑ Back to top</a></p>` footer after each major section.
 
 ## Conventions
@@ -35,3 +35,5 @@ Only accept submissions that follow the A2A protocol spec, ship comprehensive do
 ## History
 
 Recent work has been documentation-only: restructuring README sections, adding the official a2aproject SDKs, and adding inference-gateway ecosystem projects. Keep the diff limited to `README.md` unless a task explicitly asks for more.
+
+2026-11-20: /init re-verified this guide against the README and added the stats-line recount rule above (the tools count had drifted 20 -> 21 when emem was added in #7); the README stats line was corrected in the same PR. The README's last entry amendment before that was #9 (2026-09-16).

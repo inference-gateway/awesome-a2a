@@ -25,7 +25,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
 
-_10 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-08-01_
+_10 agents · 21 tools & libraries · 4 docs · 2 examples · Last updated 2026-09-16_
 
 ## 📑 Contents
 
