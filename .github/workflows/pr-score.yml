@@ -311,6 +311,7 @@ jobs:
           owner: ${{ github.repository_owner }}
           repositories: ${{ github.event.repository.name }}
           permission-pull-requests: write
+          permission-issues: write
 
       - name: Post comment
         if: steps.collect.outputs.count != '0'
