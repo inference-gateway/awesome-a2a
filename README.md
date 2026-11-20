@@ -13,7 +13,7 @@
   <a href="https://github.com/inference-gateway/awesome-a2a/commits/main"><img src="https://img.shields.io/github/last-commit/inference-gateway/awesome-a2a?color=blue&style=flat-square" alt="Last commit"/></a>
 </p>
 
-The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless communication and coordination between AI agents. This list showcases tested, working A2A-compatible agents, tools, libraries, and resources.
+The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless communication and coordination between AI agents. This list showcases free and open source, tested, working A2A-compatible agents, tools, libraries, and resources.
 
 > [!TIP]
 > **New to A2A?** Start with the [Agent Development Kit (ADK)](https://github.com/inference-gateway/adk) and ship your first A2A-compatible agent in minutes.
@@ -21,11 +21,9 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 ## ⚡ Featured
 
 - **[Agent Development Kit (ADK)](https://github.com/inference-gateway/adk)** - The fastest way to build A2A agents in Go (Rust and TypeScript flavors available too).
-- **[Agent Definition Language (ADL)](https://github.com/inference-gateway/adl)** - Declare your agent in YAML; scaffold Go, Rust, or TypeScript with one CLI command.
+- **[Agent Definition Language (ADL)](https://github.com/inference-gateway/adl)** - Declare your agent in YAML and scaffold Go, Rust, or TypeScript with one CLI command.
 - **[Inference Gateway](https://github.com/inference-gateway/inference-gateway)** - Drop-in proxy that connects any A2A agent to any LLM.
 - **[A2A Protocol Specification](https://a2a-protocol.org/latest/specification/)** - The official spec - start here to understand the protocol.
-
-_11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-10-21_
 
 ## 📑 Contents
 
@@ -53,7 +51,7 @@ _11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 - [🤝 Contributing](#-contributing)
 
 > [!NOTE]
-> Each entry is tagged with its primary language and license. `⭐ Featured` marks curator picks; `🆕 New` marks entries added in the last ~90 days.
+> Each entry is tagged with its primary language and license. `⭐ Featured` marks curator picks, and `🆕 New` marks entries added in the last ~90 days.
 
 ## 🤖 Agents
 
@@ -63,7 +61,7 @@ _11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 
 ### 🛒 Commerce & Marketplaces
 
-- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`); the A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
+- **[Cog Depot](https://cogdepot.com)** `Hosted` `Proprietary` - Hosted A2A-native peer-to-peer marketplace and anonymous broker for agent-to-agent service exchanges. Agents browse and post listings, negotiate deal terms, finalize, and get a direct peer-to-peer channel - the broker exits after finalization. The browse -> negotiate -> finalize -> rate flow runs over the REST API (`https://api.cogdepot.com/openapi.json`). The A2A Agent Card currently advertises a single `onboarding` skill over JSON-RPC `message/send`. BTC/stablecoin settlement. AgentCard: https://api.cogdepot.com/.well-known/agent-card.json.
 
 ### 📊 DevOps & Observability
 
@@ -73,6 +71,7 @@ _11 agents · 20 tools & libraries · 4 docs · 2 examples · Last updated 2026-
 - **[Aurelius Agent](https://aureliusagent.dev/)** `Container` `Proprietary` - Strategic planning and orchestration agent for BuilderStudio that breaks complex software work into actionable implementation paths, coordinates coding tasks, prepares project context, guides Hermes Agent execution, and supports repeatable build, smoke-test, and release flows. AgentCard: https://aureliusagent.dev/.well-known/agent-card.json. Docker image: `ghcr.io/wundercorp/aurelius-agent:0.3.9`.
 
 
+- **[Council of AI - Measurement Agent](https://github.com/CSOAI-ORG/councilof-ai)** `HTML` `MIT` - Public A2A-compatible AI governance measurement agent with a 22-axis board, signed evidence cards, verifiable roots, and a free verifier. Measurement, not certification.
 - **[Mock Agent](https://github.com/inference-gateway/mock-agent)** `Go` `Apache-2.0` - A2A agent that returns canned responses - useful for testing client integrations and CI flows without a real backend.
 - **[OpenAgents](https://github.com/openagents-org/openagents)** `Python` `Apache-2.0` - Open-source platform for building AI agent networks with native A2A protocol support alongside MCP, WebSocket, gRPC, and HTTP.
 
@@ -169,7 +168,7 @@ Contributions are welcome! Adding a new agent or tool takes three steps:
 
 1. **Fork** this repository.
 2. **Add your entry** to the right section, following the format below.
-3. **Open a pull request** with a brief explanation of what you're adding.
+3. **Open a pull request** and fill in the template, including why the project helps the open source ecosystem.
 
 **Entry format:**
 
@@ -177,7 +176,29 @@ Contributions are welcome! Adding a new agent or tool takes three steps:
 - **[Name](https://github.com/owner/repo)** `Language` `License` - Brief description of what it does and its key capabilities.
 ```
 
+Use plain hyphens instead of em dashes, and commas or periods instead of semicolons.
+
 > [!IMPORTANT]
+> **Free and open source only.** This is a neutral, non-commercial list - not an advertising channel.
+> - The project's source must be public under an [OSI-approved license](https://opensource.org/licenses). Link the source repository, not a product or marketing site.
+> - **Do not open a PR if the product has commercial intent**: paid or hosted-only services, freemium funnels, marketplaces, paid APIs, or links whose main purpose is to promote a business.
+> - **No duplicates.** Search the list first. If a similar project is listed, explain what is different.
+> - **Explain in the PR why your project helps others in the open source ecosystem, not only what it is.** A feature list or product description is not enough. Say who benefits, what other builders can reuse, fork, or learn from it, and what gap it fills next to what is already listed. PRs that only describe the project are not reviewed.
+> - **Agents must pass the [A2A TCK](https://github.com/a2aproject/a2a-tck)** (`must` level). Give a container image or a public endpoint in the PR template.
+> - Change only `README.md`. Submissions must come from people, not bots or automated mass-submission accounts.
+>
+> Entries added before 2026-11-20 predate this policy and may be reviewed later.
+
+**How PRs are scored.** When a maintainer picks up a pull request, they add the `in-review` label. That posts a readiness score (0-100) as a comment, updated on each push while the PR is in review:
+
+- **Hard rules** - an OSI-licensed public GitHub repo, not already listed, not archived, only `README.md` changed, opened by a person (not a bot account), and for agents a passing A2A TCK run. Breaking one marks the PR "Not eligible".
+- **Entry (45)** - format, one entry per PR, A2A evidence in the repo, examples, recent activity.
+- **Contributor (30)** - your merged vs closed pull requests on other projects, account age, and open vs merged volume.
+- **Review (25)** - an AI review (Claude Haiku) of why the project helps the ecosystem, commercial intent, and near-duplicates.
+
+PRs scoring 80+ are reviewed first. The score is advisory: maintainers make the final call.
+
+> [!NOTE]
 > **Quality standards.** Submissions should:
 > - ✅ Follow the A2A protocol specification
 > - ✅ Include comprehensive documentation
