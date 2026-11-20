@@ -163,8 +163,8 @@ jobs:
 
           # shellcheck disable=SC2016 # literal backticks in the entry tags
           fmt_re='^- \*\*\[[^]]+\]\(https://[^)]+\)\*\* (`[^`]+` )+- .+$'
-          f=0; [[ "$entry" =~ $fmt_re ]] && f=$((f + 5)); grep -q '—' "$d/entries" || f=$((f + 5))
-          pts "Entry format, no em dashes" "$([ "$f" = 10 ] && echo ok || echo 'fix the format or replace em dashes with hyphens')" "$f" 10
+          f=0; [[ "$entry" =~ $fmt_re ]] && f=$((f + 5)); grep -qE '—|;' "$d/entries" || f=$((f + 5))
+          pts "Entry format, no em dashes or semicolons" "$([ "$f" = 10 ] && echo ok || echo 'fix the format, use hyphens instead of em dashes and commas or periods instead of semicolons')" "$f" 10
 
           n=$(wc -l < "$d/entries" | tr -d ' ')
           pts "One entry per PR" "$n added" "$([ "$n" = 1 ] && echo 5 || echo 0)" 5
