@@ -86,6 +86,7 @@ The [Agent-to-Agent (A2A) protocol](https://a2a-protocol.org/) enables seamless 
 ### 📅 Productivity & Calendar
 
 - **[Google Calendar Agent](https://github.com/inference-gateway/google-calendar-agent)** `Go` `Apache-2.0` `⭐ Featured` - A2A-compatible agent for Google Calendar with full CRUD operations and event management capabilities.
+- **[Mailows](https://www.mailows.com)** `Hosted` `Proprietary` - Email inboxes for AI agents: read and send mail over A2A, remote MCP (OAuth 2.1) or REST, with scoped, revocable per-mailbox grants. Docs at [mailows.com/mcp-manual](https://www.mailows.com/mcp-manual); AgentCard at [mailows.com](https://www.mailows.com/.well-known/agent-card.json).
 
 ### 🔄 Workflow Automation
 
